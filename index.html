@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meeting Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F7F5;
+    --surface: #FFFFFF;
+    --border: #E4E4DF;
+    --text: #1A1A18;
+    --muted: #8A8A82;
+    --accent: #1A1A18;
+    --radius: 8px;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+
+  /* SETUP SCREEN */
+  #setup-screen {
+    max-width: 560px;
+    margin: 80px auto;
+  }
+  .setup-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 40px;
+  }
+  .setup-card h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .setup-card p { color: var(--muted); font-size: 14px; line-height: 1.6; margin-bottom: 28px; }
+  .steps { margin-bottom: 28px; }
+  .step {
+    display: flex; gap: 14px; align-items: flex-start;
+    margin-bottom: 16px; font-size: 13px; line-height: 1.5;
+  }
+  .step-num {
+    background: var(--text); color: #fff;
+    border-radius: 50%; width: 22px; height: 22px; min-width: 22px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; margin-top: 1px;
+  }
+  .step code {
+    font-family: var(--mono); font-size: 11px;
+    background: #F0F0EC; padding: 2px 6px; border-radius: 4px;
+  }
+  .input-row { display: flex; gap: 8px; }
+  .input-row input {
+    flex: 1; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 10px 14px; font-family: var(--mono); font-size: 12px;
+    outline: none; background: var(--bg);
+    transition: border-color 0.15s;
+  }
+  .input-row input:focus { border-color: var(--text); }
+  .input-row input::placeholder { color: var(--muted); }
+  .btn-primary {
+    background: var(--text); color: #fff; border: none;
+    border-radius: var(--radius); padding: 10px 20px;
+    font-family: var(--sans); font-size: 13px; font-weight: 600;
+    cursor: pointer; white-space: nowrap; transition: opacity 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .error-msg {
+    margin-top: 10px; font-size: 12px; color: #C0392B;
+    display: none;
+  }
+
+  /* MAIN APP */
+  #app { max-width: 1100px; margin: 0 auto; display: none; }
+
+  .app-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+  }
+  .app-header h1 { font-size: 20px; font-weight: 700; }
+  .app-header .meta { font-size: 12px; color: var(--muted); margin-top: 3px; font-family: var(--mono); }
+
+  .header-right { display: flex; align-items: center; gap: 10px; }
+  .refresh-btn {
+    background: transparent; border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 7px 13px;
+    font-family: var(--sans); font-size: 12px; color: var(--muted);
+    cursor: pointer; display: flex; align-items: center; gap: 6px;
+    transition: all 0.15s;
+  }
+  .refresh-btn:hover { border-color: var(--text); color: var(--text); }
+  .refresh-btn.spinning svg { animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .save-badge {
+    font-size: 11px; font-family: var(--mono);
+    color: #27AE60; font-weight: 500;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .save-badge.visible { opacity: 1; }
+
+  /* CONTROLS */
+  .controls {
+    display: flex; gap: 8px; margin-bottom: 14px;
+    flex-wrap: wrap; align-items: center;
+  }
+  .controls input, .controls select {
+    padding: 8px 12px; border: 1px solid var(--border);
+    border-radius: var(--radius); font-family: var(--sans);
+    font-size: 13px; background: var(--surface); color: var(--text);
+    outline: none; transition: border-color 0.15s;
+  }
+  .controls input { width: 200px; }
+  .controls input:focus, .controls select:focus { border-color: var(--text); }
+  .sort-btn {
+    padding: 8px 13px; border: 1px solid var(--border);
+    border-radius: var(--radius); font-family: var(--mono);
+    font-size: 12px; background: var(--surface); color: var(--muted);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .sort-btn:hover { border-color: var(--text); color: var(--text); }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+  .chip {
+    display: inline-block; padding: 3px 10px;
+    border-radius: 9999px; font-size: 11px; font-weight: 600;
+    cursor: pointer; border: 1px solid transparent;
+    transition: opacity 0.15s, transform 0.1s;
+    font-family: var(--sans);
+  }
+  .chip:hover { transform: translateY(-1px); }
+  .chip.dimmed { opacity: 0.3; }
+
+  /* SECTION */
+  .section { margin-bottom: 32px; }
+  .section-label {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 10px;
+  }
+  .section-label span:first-child {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--muted); font-family: var(--mono);
+  }
+  .count {
+    background: var(--border); color: var(--muted);
+    font-size: 10px; font-weight: 600; border-radius: 9999px;
+    padding: 1px 7px; font-family: var(--mono);
+  }
+
+  /* TABLE */
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    overflow-x: auto;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 680px; }
+  thead tr { background: #FAFAF8; }
+  th {
+    padding: 9px 13px; text-align: left;
+    color: var(--muted); font-weight: 600;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em;
+    border-bottom: 1px solid var(--border); white-space: nowrap;
+    font-family: var(--mono);
+  }
+  td {
+    padding: 9px 13px; border-bottom: 1px solid #F3F3F0;
+    color: var(--text); vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #FAFAF8; }
+  .date-cell { font-family: var(--mono); font-size: 12px; white-space: nowrap; }
+  .time-cell { font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .oppl-cell { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+  /* NOTES */
+  .note-cell { min-width: 160px; cursor: pointer; }
+  .note-placeholder { color: #C8C8C2; font-size: 12px; font-style: italic; }
+  .note-text { font-size: 12px; }
+  .note-edit { display: flex; gap: 5px; align-items: center; }
+  .note-edit input {
+    flex: 1; border: 1px solid var(--text); border-radius: 5px;
+    padding: 4px 8px; font-size: 12px; font-family: var(--sans);
+    outline: none; background: #FAFAF8;
+  }
+  .btn-save {
+    background: var(--text); color: #fff; border: none;
+    border-radius: 5px; padding: 4px 9px; font-size: 11px;
+    font-family: var(--sans); cursor: pointer;
+  }
+  .btn-cancel {
+    background: var(--border); color: var(--text); border: none;
+    border-radius: 5px; padding: 4px 8px; font-size: 11px;
+    font-family: var(--sans); cursor: pointer;
+  }
+  .edit-hint { font-size: 9px; color: #C8C8C2; margin-left: 3px; }
+
+  .empty-row td { text-align: center; color: var(--muted); font-style: italic; padding: 20px; }
+
+  /* Editable cells */
+  .day-cell { color: var(--muted); font-size: 12px; }
+  .length-cell { font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .editable-cell { cursor: pointer; position: relative; }
+  .editable-cell:hover { background: #F0F4FF !important; }
+  .editable-cell:hover .edit-hint { opacity: 1; }
+  .editing-cell { background: #F0F4FF !important; }
+  .edit-hint { font-size: 9px; color: #C8C8C2; margin-left: 3px; opacity: 0; transition: opacity 0.15s; }
+
+  /* LOADING */
+  .loading {
+    text-align: center; padding: 60px 20px;
+    color: var(--muted); font-size: 14px; font-family: var(--mono);
+  }
+  .loading-dots::after {
+    content: ''; animation: dots 1.2s steps(4, end) infinite;
+  }
+  @keyframes dots {
+    0%, 100% { content: ''; }
+    25% { content: '.'; }
+    50% { content: '..'; }
+    75% { content: '...'; }
+  }
+
+  /* CONFIG PERSISTED */
+  .change-link {
+    font-size: 11px; color: var(--muted); font-family: var(--mono);
+    cursor: pointer; text-decoration: underline; text-underline-offset: 2px;
+  }
+  .change-link:hover { color: var(--text); }
+
+  /* Delete button */
+  .delete-cell { width: 36px; text-align: center; padding: 0 !important; }
+  .delete-btn {
+    background: none; border: none; color: #D1D5DB; cursor: pointer;
+    font-size: 13px; padding: 4px 6px; border-radius: 4px;
+    transition: color 0.15s, background 0.15s; line-height: 1;
+  }
+  .delete-btn:hover { color: #EF4444; background: #FEF2F2; }
+  tr:hover .delete-btn { color: #9CA3AF; }
+
+  /* Add row button */
+  .add-row-btn {
+    margin: 10px 0 0; padding: 7px 14px;
+    background: none; border: 1px dashed var(--border);
+    border-radius: var(--radius); font-family: var(--sans);
+    font-size: 12px; color: var(--muted); cursor: pointer;
+    width: 100%; transition: all 0.15s;
+  }
+  .add-row-btn:hover { border-color: var(--text); color: var(--text); background: var(--surface); }
+
+  /* Add row modal */
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.3);
+    z-index: 100; backdrop-filter: blur(2px);
+  }
+  .modal-card {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px; width: 420px; max-width: 90vw;
+    z-index: 101; box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  }
+  .modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px; font-weight: 700; font-size: 15px;
+  }
+  .modal-close {
+    background: none; border: none; cursor: pointer;
+    color: var(--muted); font-size: 16px; padding: 2px 6px;
+  }
+  .modal-close:hover { color: var(--text); }
+  .modal-fields { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+  .modal-fields label {
+    display: flex; flex-direction: column; gap: 4px;
+    font-size: 12px; font-weight: 600; color: var(--muted);
+    font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .modal-fields input {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 8px 11px; font-family: var(--sans); font-size: 13px;
+    background: var(--bg); color: var(--text); outline: none;
+    transition: border-color 0.15s;
+  }
+  .modal-fields input:focus { border-color: var(--text); }
+  .modal-footer { display: flex; justify-content: flex-end; gap: 8px; }
+
+</style>
+</head>
+<body>
+
+<!-- SETUP SCREEN -->
+<div id="setup-screen">
+  <div class="setup-card">
+    <h1>📅 Meeting Tracker Setup</h1>
+    <p>Paste your Google Apps Script web app URL below to connect your sheet. Follow these steps to create it — takes about 2 minutes.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>Open your Google Sheet → <strong>Extensions → Apps Script</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>Delete any existing code and paste in the script provided separately, then click <strong>Save</strong> (💾)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>Click <strong>Deploy → New deployment</strong> → type: <code>Web app</code> → set <em>Who has access</em> to <code>Anyone</code> → click <strong>Deploy</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>Copy the <strong>Web app URL</strong> and paste it below</div>
+      </div>
+    </div>
+
+    <div class="input-row">
+      <input id="sheet-url-input" type="text" placeholder="https://script.google.com/macros/s/…/exec" />
+      <button class="btn-primary" onclick="connectSheet()">Connect</button>
+    </div>
+    <div class="error-msg" id="error-msg"></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="app-header">
+    <div>
+      <h1>📅 Meeting Tracker</h1>
+      <div class="meta" id="meta-line">—</div>
+    </div>
+    <div class="header-right">
+      <span class="save-badge" id="save-badge">Notes saved ✓</span>
+      <button class="refresh-btn" id="refresh-btn" onclick="refreshData()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>
+        </svg>
+        Refresh
+      </button>
+      <span class="change-link" onclick="resetSetup()">Change sheet</span>
+    </div>
+  </div>
+
+  <div class="controls">
+    <input type="text" id="search-input" placeholder="Search meetings…" oninput="renderAll()" />
+    <select id="topic-filter" onchange="renderAll()">
+      <option value="All">All topics</option>
+    </select>
+    <button class="sort-btn" id="sort-btn" onclick="toggleSort()">Date ↑</button>
+  </div>
+
+  <div class="legend" id="legend"></div>
+
+  <div id="content">
+    <div class="loading"><span class="loading-dots">Loading</span></div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'mt-sheet-url';
+const EDITS_KEY   = 'mt-edits-v3';
+
+const TOPIC_COLORS = {
+  "Denise & Tim 1:1":      { bg:"#EFF6FF", border:"#BFDBFE", text:"#1D4ED8" },
+  "Wendy 1:1":             { bg:"#F0FDF4", border:"#BBF7D0", text:"#15803D" },
+  "Weekly SOW Review":     { bg:"#FFF7ED", border:"#FED7AA", text:"#C2410C" },
+  "Stephanie 1:1":         { bg:"#FAF5FF", border:"#E9D5FF", text:"#7E22CE" },
+  "Dawn 1:1":              { bg:"#FFF1F2", border:"#FECDD3", text:"#BE123C" },
+  "Jim 1:1":               { bg:"#FFFBEB", border:"#FDE68A", text:"#B45309" },
+  "Weekly Access Meeting": { bg:"#F0F9FF", border:"#BAE6FD", text:"#0369A1" },
+  "ELT Readout (WEOR)":    { bg:"#F0FDF9", border:"#99F6E4", text:"#0F766E" },
+  "ELT Readout (EMOR)":    { bg:"#FFF8F0", border:"#FDBA74", text:"#EA580C" },
+  "Ortho Tiger Team":      { bg:"#F5F3FF", border:"#C4B5FD", text:"#6D28D9" },
+  "Primary Care Tiger Team": { bg:"#FDF2F8", border:"#F0ABFC", text:"#A21CAF" },
+};
+
+const TOPIC_LENGTHS = {
+  "Denise & Tim 1:1":        "30 min",
+  "Stephanie 1:1":           "25 min",
+  "Dawn 1:1":                "25 min",
+  "Wendy 1:1":               "25 min",
+  "Jim 1:1":                 "25 min",
+  "Weekly SOW Review":       "25 min",
+  "Weekly Access Meeting":   "90 min",
+  "ELT Readout (WEOR)":      "30 min",
+  "ELT Readout (EMOR)":      "40 min",
+  "Ortho Tiger Team":        "30 min",
+  "Primary Care Tiger Team": "30 min",
+};
+const DEFAULT_COLOR = { bg:"#F3F3F0", border:"#D1D5DB", text:"#374151" };
+
+let allMeetings = [];
+let edits = {}; // { 'id:field': value }
+let sortDir = 'asc';
+let activeFilter = 'All';
+let editingCell = null;
+let sheetUrl = '';
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  edits = JSON.parse(localStorage.getItem(EDITS_KEY) || '{}');
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    sheetUrl = saved;
+    showApp();
+    loadSheet();
+  }
+});
+
+// ─── SETUP ───────────────────────────────────────────────────────────────────
+function connectSheet() {
+  const url = document.getElementById('sheet-url-input').value.trim();
+  if (!url) return showError('Please paste your published CSV URL.');
+  if (!url.includes('script.google.com') && !url.includes('docs.google.com')) return showError('That doesn\'t look like a Google Apps Script or Sheets URL.');
+  sheetUrl = url;
+  localStorage.setItem(STORAGE_KEY, url);
+  showApp();
+  loadSheet();
+}
+
+function showError(msg) {
+  const el = document.getElementById('error-msg');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function showApp() {
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+
+function resetSetup() {
+  localStorage.removeItem(STORAGE_KEY);
+  document.getElementById('setup-screen').style.display = 'block';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('sheet-url-input').value = sheetUrl;
+}
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+async function loadSheet() {
+  setLoading(true);
+  try {
+    const resp = await fetch(sheetUrl);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const json = await resp.json();
+    allMeetings = parseJSON(json);
+    updateMeta();
+    buildFilters();
+    renderAll();
+  } catch(e) {
+    document.getElementById('content').innerHTML =
+      `<div class="loading">⚠️ Could not load data.<br><small style="color:#aaa;margin-top:8px;display:block;">${e.message}</small></div>`;
+  }
+  setLoading(false);
+}
+
+function formatDate(raw) {
+  if (!raw) return '';
+  const s = String(raw).trim();
+  if (s.includes('T')) {
+    const d = new Date(s);
+    return (d.getUTCMonth()+1) + '/' + d.getUTCDate() + '/' + d.getUTCFullYear();
+  }
+  return s;
+}
+
+function formatTime(raw) {
+  if (!raw) return '';
+  const s = String(raw).trim();
+  // Google Sheets time value comes as ISO with 1899 date e.g. "1899-12-30T10:30:00.000Z"
+  if (s.includes('T')) {
+    const d = new Date(s);
+    let h = d.getUTCHours(), m = d.getUTCMinutes();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return h + ':' + String(m).padStart(2,'0') + ' ' + ampm;
+  }
+  return s;
+}
+
+function parseJSON(json) {
+  if (!Array.isArray(json) || json.length < 2) return [];
+  return json.slice(1).map((row, i) => ({
+    id: i,
+    day:       String(row[0]||'').trim(),
+    date:      formatDate(row[1]),
+    time:      formatTime(row[2]),
+    length:    String(row[3]||'').trim(),
+    topic:     String(row[4]||'').trim(),
+    oppl:      String(row[5]||'').trim(),
+    sheetNote: String(row[6]||'').trim(),
+  })).filter(m => m.topic);
+}
+
+
+async function refreshData() {
+  const btn = document.getElementById('refresh-btn');
+  btn.classList.add('spinning');
+  await loadSheet();
+  btn.classList.remove('spinning');
+}
+
+function setLoading(on) {
+  if (on) {
+    document.getElementById('content').innerHTML =
+      '<div class="loading"><span class="loading-dots">Loading</span></div>';
+  }
+}
+
+function updateMeta() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const upcoming = allMeetings.filter(m => parseDate(m.date) >= today).length;
+  document.getElementById('meta-line').textContent =
+    `${allMeetings.length} meetings · ${upcoming} upcoming · live from Google Sheets`;
+}
+
+
+function parseTime(str) {
+  if (!str) return 0;
+  const m = str.match(/(\d+):(\d+)\s*(AM|PM)?/i);
+  if (!m) return 0;
+  let h = parseInt(m[1]), min = parseInt(m[2]);
+  const ampm = (m[3]||'').toUpperCase();
+  if (ampm === 'PM' && h !== 12) h += 12;
+  if (ampm === 'AM' && h === 12) h = 0;
+  return h * 60 + min;
+}
+function parseDate(str) {
+  // Handle both M/D/YYYY and YYYY-MM-DD formats
+  if (!str) return new Date(0);
+  if (str.includes('-')) return new Date(str);
+  const parts = str.split('/');
+  if (parts.length === 3) return new Date(+parts[2], +parts[0]-1, +parts[1]);
+  return new Date(str);
+}
+
+// ─── FILTERS ─────────────────────────────────────────────────────────────────
+function buildFilters() {
+  const topics = ['All', ...Array.from(new Set(allMeetings.map(m => m.topic)))];
+  const sel = document.getElementById('topic-filter');
+  sel.innerHTML = topics.map(t => `<option value="${t}">${t}</option>`).join('');
+
+  const legend = document.getElementById('legend');
+  legend.innerHTML = topics.filter(t => t !== 'All').map(t => {
+    const c = TOPIC_COLORS[t] || DEFAULT_COLOR;
+    return `<span class="chip" data-topic="${t}"
+      style="background:${c.bg};border-color:${c.border};color:${c.text}"
+      onclick="toggleFilter('${t.replace(/'/g,"\\'")}')">
+      ${t}
+    </span>`;
+  }).join('');
+  updateLegend();
+}
+
+function toggleFilter(topic) {
+  activeFilter = activeFilter === topic ? 'All' : topic;
+  document.getElementById('topic-filter').value = activeFilter;
+  updateLegend();
+  renderAll();
+}
+
+function updateLegend() {
+  document.querySelectorAll('.chip[data-topic]').forEach(el => {
+    const t = el.dataset.topic;
+    el.classList.toggle('dimmed', activeFilter !== 'All' && activeFilter !== t);
+  });
+}
+
+function toggleSort() {
+  sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+  document.getElementById('sort-btn').textContent = 'Date ' + (sortDir === 'asc' ? '↑' : '↓');
+  renderAll();
+}
+
+// Column map: field name → 1-based sheet column index
+const COL = { day:1, date:2, time:3, length:4, topic:5, oppl:6, sheetNote:7 };
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+function renderAll() {
+  activeFilter = document.getElementById('topic-filter').value;
+  updateLegend();
+  const search = document.getElementById('search-input').value.toLowerCase();
+
+  const filtered = allMeetings
+    .filter(m => activeFilter === 'All' || m.topic === activeFilter)
+    .filter(m => {
+      if (!search) return true;
+      const fields = [m.day, m.date, m.time, m.topic, m.oppl,
+        getVal(m, 'sheetNote')].join(' ').toLowerCase();
+      return fields.includes(search);
+    })
+    .sort((a, b) => {
+      const d = parseDate(a.date) - parseDate(b.date);
+      if (d !== 0) return sortDir === 'asc' ? d : -d;
+      // Same day — sort by time ascending always
+      return parseTime(getVal(a,'time')) - parseTime(getVal(b,'time'));
+    });
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const upcoming = filtered.filter(m => parseDate(m.date) >= today);
+  const past     = filtered.filter(m => parseDate(m.date) < today);
+
+  document.getElementById('content').innerHTML =
+    renderSection(upcoming, 'Upcoming') + renderSection(past, 'Past');
+}
+
+// Get display value for a field — local edit overrides sheet value
+function getVal(m, field) {
+  const key = m.id + ':' + field;
+  if (edits[key] !== undefined) return edits[key];
+  if (m[field]) return m[field];
+  // Fall back to known lengths by topic
+  if (field === 'length') return TOPIC_LENGTHS[getVal(m, 'topic')] || '';
+  return '';
+}
+
+function renderSection(rows, label) {
+  return `
+    <div class="section">
+      <div class="section-label">
+        <span>${label}</span>
+        <span class="count">${rows.length}</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Day</th><th>Date</th><th>Time (CT)</th><th>Length</th>
+            <th>Meeting Topic</th><th>OPPL Coverage</th><th>Notes / Content</th>
+            <th style="width:36px"></th>
+          </tr></thead>
+          <tbody>
+            ${rows.length === 0
+              ? '<tr class="empty-row"><td colspan="8">No meetings found</td></tr>'
+              : rows.map(m => renderRow(m)).join('')}
+          </tbody>
+        </table>
+      </div>
+      <button class="add-row-btn" onclick="addRow()">+ Add row</button>
+    </div>`;
+}
+
+const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+function dayFromDate(dateStr) {
+  if (!dateStr) return '';
+  const d = parseDate(dateStr);
+  return isNaN(d) ? '' : DAYS[d.getDay()];
+}
+
+function renderRow(m) {
+  const c = TOPIC_COLORS[getVal(m,'topic')] || DEFAULT_COLOR;
+
+  const cell = (field, extraClass='') => {
+    const val = getVal(m, field);
+    const isEditing = editingCell && editingCell.id === m.id && editingCell.field === field;
+    const cellId = `cell-${m.id}-${field}`;
+
+    if (isEditing) {
+      return `<td class="editing-cell ${extraClass}">
+        <div class="note-edit">
+          <input id="${cellId}" type="text" value="${escHtml(val)}"
+            onkeydown="handleKey(event,${m.id},'${field}')"
+            onclick="event.stopPropagation()" />
+          <button class="btn-save" onclick="event.stopPropagation();commitCell(${m.id},'${field}')">Save</button>
+          <button class="btn-cancel" onclick="event.stopPropagation();cancelCell()">✕</button>
+        </div>
+      </td>`;
+    }
+    return `<td class="${extraClass} editable-cell" onclick="startCell(${m.id},'${field}')">
+      ${val ? escHtml(val) : '<span class="note-placeholder">—</span>'}
+      <span class="edit-hint">✎</span>
+    </td>`;
+  };
+
+  const topicVal = getVal(m, 'topic');
+  const topicC   = TOPIC_COLORS[topicVal] || DEFAULT_COLOR;
+  const isEditingTopic = editingCell && editingCell.id === m.id && editingCell.field === 'topic';
+  const topicCell = isEditingTopic
+    ? `<td class="editing-cell">
+        <div class="note-edit">
+          <input id="cell-${m.id}-topic" type="text" value="${escHtml(topicVal)}"
+            onkeydown="handleKey(event,${m.id},'topic')"
+            onclick="event.stopPropagation()" />
+          <button class="btn-save" onclick="event.stopPropagation();commitCell(${m.id},'topic')">Save</button>
+          <button class="btn-cancel" onclick="event.stopPropagation();cancelCell()">✕</button>
+        </div>
+      </td>`
+    : `<td class="editable-cell" onclick="startCell(${m.id},'topic')">
+        <span class="chip" style="background:${topicC.bg};border-color:${topicC.border};color:${topicC.text};cursor:pointer">
+          ${escHtml(topicVal)}
+        </span>
+        <span class="edit-hint">✎</span>
+      </td>`;
+
+  return `<tr>
+    <td class="day-cell">${dayFromDate(getVal(m, 'date'))}</td>
+    ${cell('date','date-cell')}
+    ${cell('time','time-cell')}
+    ${cell('length','length-cell')}
+    ${topicCell}
+    ${cell('oppl','oppl-cell')}
+    ${cell('sheetNote','note-cell')}
+    <td class="delete-cell">
+      <button class="delete-btn" onclick="deleteRow(${m.id})" title="Delete row">✕</button>
+    </td>
+  </tr>`;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── CELL EDITING ─────────────────────────────────────────────────────────────
+function startCell(id, field) {
+  if (editingCell) cancelCell();
+  editingCell = { id, field };
+  renderAll();
+  setTimeout(() => {
+    const inp = document.getElementById(`cell-${id}-${field}`);
+    if (inp) { inp.focus(); inp.select(); }
+  }, 10);
+}
+
+function handleKey(e, id, field) {
+  if (e.key === 'Enter') commitCell(id, field);
+  if (e.key === 'Escape') cancelCell();
+}
+
+async function commitCell(id, field) {
+  const inp = document.getElementById(`cell-${id}-${field}`);
+  if (!inp) return;
+  const newVal = inp.value;
+  const key = id + ':' + field;
+
+  // Save locally immediately
+  edits[key] = newVal;
+  localStorage.setItem(EDITS_KEY, JSON.stringify(edits));
+
+  // Also update the in-memory meeting so filters/display stay in sync
+  const m = allMeetings.find(x => x.id === id);
+  if (m) m[field] = newVal;
+
+  editingCell = null;
+  renderAll();
+  showSaveBadge('Saving to sheet…');
+
+  // Write back to Google Sheet
+  try {
+    const sheetRow = id + 2; // +1 for header, +1 for 1-based index
+    const sheetCol = COL[field];
+    const resp = await fetch(sheetUrl, {
+      method: 'POST',
+      body: JSON.stringify({ row: sheetRow, col: sheetCol, value: newVal })
+    });
+    const result = await resp.json();
+    if (result.success) {
+      showSaveBadge('Saved to sheet ✓');
+    } else {
+      showSaveBadge('Sheet error: ' + (result.error || 'unknown'));
+    }
+  } catch(e) {
+    showSaveBadge('Sheet unreachable — saved locally');
+  }
+}
+
+function cancelCell() {
+  editingCell = null;
+  renderAll();
+}
+
+function showSaveBadge(msg) {
+  const el = document.getElementById('save-badge');
+  el.textContent = msg || 'Saved ✓';
+  el.classList.add('visible');
+  setTimeout(() => el.classList.remove('visible'), 3000);
+}
+
+// ─── ADD ROW ──────────────────────────────────────────────────────────────────
+function addRow() {
+  // Show inline modal
+  const existing = document.getElementById('add-row-modal');
+  if (existing) { existing.remove(); return; }
+
+  const modal = document.createElement('div');
+  modal.id = 'add-row-modal';
+  modal.innerHTML = `
+    <div class="modal-backdrop" onclick="closeAddRow()"></div>
+    <div class="modal-card">
+      <div class="modal-header">
+        <span>Add New Row</span>
+        <button class="modal-close" onclick="closeAddRow()">✕</button>
+      </div>
+      <div class="modal-fields">
+        <label>Date <input id="nr-date" type="text" placeholder="e.g. 4/1/2026" /></label>
+        <label>Time (CT) <input id="nr-time" type="text" placeholder="e.g. 10:00 AM" /></label>
+        <label>Length <input id="nr-length" type="text" placeholder="e.g. 30 min" /></label>
+        <label>Meeting Topic <input id="nr-topic" type="text" placeholder="e.g. Weekly Sync" /></label>
+        <label>OPPL Coverage <input id="nr-oppl" type="text" placeholder="e.g. NT, LP" /></label>
+        <label>Notes <input id="nr-note" type="text" placeholder="Optional" /></label>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeAddRow()">Cancel</button>
+        <button class="btn-primary" onclick="submitAddRow()">Add Row</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  document.getElementById('nr-date').focus();
+}
+
+function closeAddRow() {
+  const m = document.getElementById('add-row-modal');
+  if (m) m.remove();
+}
+
+async function submitAddRow() {
+  const date   = document.getElementById('nr-date').value.trim();
+  const time   = document.getElementById('nr-time').value.trim();
+  const length = document.getElementById('nr-length').value.trim();
+  const topic  = document.getElementById('nr-topic').value.trim();
+  const oppl   = document.getElementById('nr-oppl').value.trim();
+  const note   = document.getElementById('nr-note').value.trim();
+
+  if (!date || !topic) {
+    alert('Date and Meeting Topic are required.');
+    return;
+  }
+
+  const newId = Date.now(); // unique local id
+  const newRow = { id: newId, day: '', date, time, length, topic, oppl, sheetNote: note };
+  allMeetings.push(newRow);
+  closeAddRow();
+  renderAll();
+  showSaveBadge('Saving to sheet…');
+
+  // Write to sheet as new row
+  try {
+    const resp = await fetch(sheetUrl, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'append',
+        values: [dayFromDate(date), date, time, length, topic, oppl, note]
+      })
+    });
+    const result = await resp.json();
+    if (result.success) {
+      showSaveBadge('Row added to sheet ✓');
+      await loadSheet(); // reload to get correct sheet row index
+    } else {
+      showSaveBadge('Sheet error: ' + (result.error || 'unknown'));
+    }
+  } catch(e) {
+    showSaveBadge('Sheet unreachable — saved locally');
+  }
+}
+
+// ─── DELETE ROW ──────────────────────────────────────────────────────────────
+async function deleteRow(id) {
+  if (!confirm('Delete this row? This will also remove it from your Google Sheet.')) return;
+
+  const m = allMeetings.find(x => x.id === id);
+  allMeetings = allMeetings.filter(x => x.id !== id);
+
+  // Clean up any local edits for this row
+  Object.keys(edits).forEach(k => { if (k.startsWith(id + ':')) delete edits[k]; });
+  localStorage.setItem(EDITS_KEY, JSON.stringify(edits));
+
+  renderAll();
+  showSaveBadge('Deleting from sheet…');
+
+  try {
+    // Find original sheet row — id is the 0-based index in original allMeetings
+    // For newly added rows (id = timestamp), we reload after
+    const sheetRow = id + 2;
+    const resp = await fetch(sheetUrl, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'delete', row: sheetRow })
+    });
+    const result = await resp.json();
+    if (result.success) {
+      showSaveBadge('Row deleted from sheet ✓');
+      await loadSheet(); // reload to re-sync row indices
+    } else {
+      showSaveBadge('Sheet error: ' + (result.error || 'unknown'));
+    }
+  } catch(e) {
+    showSaveBadge('Sheet unreachable — removed locally');
+  }
+}
+
+</script>
+</body>
+</html>
