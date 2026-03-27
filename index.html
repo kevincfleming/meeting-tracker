@@ -298,7 +298,7 @@
 <body>
 
 <!-- SETUP SCREEN -->
-<div id="setup-screen">
+<div id="setup-screen" style="display:none">
   <div class="setup-card">
     <h1>📅 Meeting Tracker Setup</h1>
     <p>Paste your Google Apps Script web app URL below to connect your sheet. Follow these steps to create it — takes about 2 minutes.</p>
@@ -402,17 +402,17 @@ let edits = {}; // { 'id:field': value }
 let sortDir = 'asc';
 let activeFilter = 'All';
 let editingCell = null;
-let sheetUrl = '';
+// ⬇️ Your Google Apps Script URL — already connected for all viewers
+const HARDCODED_URL = 'https://script.google.com/macros/s/AKfycbwnQi1tL0Am9fp2Zm0f-kdfleXX7Rryqr50ENjOqydjX8sRAPtUHLWJlJqQ0oEtvGHJZw/exec';
+let sheetUrl = HARDCODED_URL;
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   edits = JSON.parse(localStorage.getItem(EDITS_KEY) || '{}');
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    sheetUrl = saved;
-    showApp();
-    loadSheet();
-  }
+  // Use saved URL if present (allows Change sheet to override), else use hardcoded
+  sheetUrl = localStorage.getItem(STORAGE_KEY) || HARDCODED_URL;
+  showApp();
+  loadSheet();
 });
 
 // ─── SETUP ───────────────────────────────────────────────────────────────────
