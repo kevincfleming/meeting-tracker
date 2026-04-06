@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect rx='20' width='100' height='100' fill='%236c8cff'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold'>TM</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f1117;--sf:#1a1d27;--sfh:#222633;--bd:#2a2e3d;--tx:#e4e6ed;--tm:#8b90a0;--ac:#6c8cff;--acd:rgba(108,140,255,.12);--gn:#4ecb71;--gnd:rgba(78,203,113,.12);--pp:#c4a8ff;--ppd:rgba(179,136,255,.10);--dim:#555a6e}
+:root{--bg:#0f1117;--sf:#1a1d27;--sfh:#222633;--bd:#2a2e3d;--tx:#e4e6ed;--tm:#8b90a0;--ac:#6c8cff;--acd:rgba(108,140,255,.12);--gn:#4ecb71;--gnd:rgba(78,203,113,.12);--dim:#555a6e}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;padding:24px}
 .hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
@@ -18,8 +18,7 @@ h1 span{color:var(--tm);font-weight:400;font-size:14px;margin-left:10px}
 .ref{color:var(--dim);font-size:11px;margin-left:10px}
 .flt{display:flex;gap:8px;flex-wrap:wrap}
 .fb{background:var(--sf);border:1px solid var(--bd);color:var(--tm);padding:6px 14px;border-radius:8px;font-size:12.5px;font-family:inherit;cursor:pointer;font-weight:500;transition:all .15s}
-.fb:hover{background:var(--sfh);color:var(--tx)}
-.fb.on{background:var(--acd);border-color:var(--ac);color:var(--ac)}
+.fb:hover{background:var(--sfh);color:var(--tx)}.fb.on{background:var(--acd);border-color:var(--ac);color:var(--ac)}
 .stats{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap}
 .st{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:10px;min-width:130px}
 .sn{font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace}
@@ -27,19 +26,14 @@ h1 span{color:var(--tm);font-weight:400;font-size:14px;margin-left:10px}
 .tw{background:var(--sf);border:1px solid var(--bd);border-radius:12px;overflow-x:auto}
 table{width:100%;border-collapse:collapse;min-width:1100px}
 thead th{text-align:left;padding:12px 11px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--tm);border-bottom:1px solid var(--bd);white-space:nowrap;position:sticky;top:0;background:var(--sf);z-index:1}
-tbody tr{transition:background .1s}
-tbody tr:hover{background:var(--sfh)}
+tbody tr{transition:background .1s}tbody tr:hover{background:var(--sfh)}
 td{padding:10px 11px;font-size:13.5px;border-bottom:1px solid rgba(42,46,61,.5);vertical-align:top;line-height:1.45}
-.dy{font-weight:600;white-space:nowrap}
-.dt{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--tm);white-space:nowrap}
-.tm{font-family:'JetBrains Mono',monospace;font-size:12.5px;white-space:nowrap}
-.tp{font-weight:500}
+.dy{font-weight:600;white-space:nowrap}.dt{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--tm);white-space:nowrap}
+.tm{font-family:'JetBrains Mono',monospace;font-size:12.5px;white-space:nowrap}.tp{font-weight:500}
 .badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;white-space:nowrap}
-.b-ext{background:var(--gnd);color:var(--gn)}
-.b-int{background:var(--acd);color:var(--ac)}
+.b-ext{background:var(--gnd);color:var(--gn)}.b-int{background:var(--acd);color:var(--ac)}
 .chip{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:500;white-space:nowrap;line-height:1.6;margin:2px}
-.c-req{background:rgba(108,140,255,.10);color:#8ba4ff}
-.c-opt{background:rgba(179,136,255,.10);color:#c4a8ff}
+.c-req{background:rgba(108,140,255,.10);color:#8ba4ff}.c-opt{background:rgba(179,136,255,.10);color:#c4a8ff}
 .nt{font-size:12.5px;max-width:220px;white-space:pre-line}
 .lk{display:inline-flex;align-items:center;gap:4px;background:var(--acd);color:var(--ac);padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;white-space:nowrap;transition:background .15s}
 .lk:hover{background:rgba(108,140,255,.22)}
@@ -53,7 +47,7 @@ td{padding:10px 11px;font-size:13.5px;border-bottom:1px solid rgba(42,46,61,.5);
 <div class="hdr">
   <div class="hdr-l">
     <div class="logo">TM</div>
-    <div><h1>TMO Program Tracker <span>Mar 31 – Apr 30, 2026</span></h1><span class="ref">Refreshed Apr 3, 2026</span></div>
+    <div><h1>TMO Program Tracker <span>Apr 6 – May 3, 2026</span></h1><span class="ref">Refreshed Apr 5, 2026 · Source: TMO Program Calendar</span></div>
   </div>
   <div class="flt">
     <button class="fb on" data-f="all">All</button>
@@ -69,81 +63,69 @@ td{padding:10px 11px;font-size:13.5px;border-bottom:1px solid rgba(42,46,61,.5);
 <div class="tw"><table><thead><tr>
   <th>Day</th><th>Date</th><th>Time (CT)</th><th>Meeting Topic</th><th>Type</th><th>Required (BCG)</th><th>Optional (BCG)</th><th>Notes</th><th>Link</th>
 </tr></thead><tbody id="tb"></tbody></table></div>
-
 <script>
 const M=[
-{d:"Tuesday",dt:"Mar 31, 2026",t:"12:35 PM – 1:00 PM",tp:"Ochsner & BCG | Bi-Weekly Wendy & BCG Check Ins",ty:"external",rq:["Natasha","Luke"],op:["Ryan","Kevin","Alyse"],n:"",lk:"https://teams.microsoft.com/meet/26970032600555?p=VOyBDmL3FRkYQcF70u"},
-{d:"Tuesday",dt:"Mar 31, 2026",t:"2:00 PM – 2:30 PM",tp:"Ochsner BD | CTM",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"",lk:"https://bcg.zoom.us/j/98831107879"},
-{d:"Wednesday",dt:"Apr 1, 2026",t:"10:30 AM – 11:00 AM",tp:"Ochsner <> BCG | Ortho Tiger Team",ty:"external",rq:["Kevin","Natasha","Ryan"],op:[],n:"",lk:"https://bcg.zoom.us/j/98122391578"},
-{d:"Wednesday",dt:"Apr 1, 2026",t:"3:00 PM – 3:30 PM",tp:"Ochsner <> BCG | Primary Care Tiger Team",ty:"external",rq:["Natasha","Ryan"],op:[],n:"Noting that Dr. Mollere is OOO next week so will not be able to attend",lk:"https://bcg.zoom.us/j/91934634573"},
-{d:"Wednesday",dt:"Apr 1, 2026",t:"3:30 PM – 4:00 PM",tp:"Ochsner BD | OPPL",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"",lk:"https://bcg.zoom.us/j/98749754986"},
-{d:"Thursday",dt:"Apr 2, 2026",t:"4:00 PM – 5:00 PM",tp:"Ochsner BD | CTM",ty:"internal",rq:["Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"Luke joining first half\nSimon on PDC might join\nAlyse OOO\nYong joining first half",lk:"https://bcg.zoom.us/j/99125442143"},
-{d:"Friday",dt:"Apr 3, 2026",t:"11:35 AM – 12:00 PM",tp:"Ochsner & BCG | Weekly Stephanie & BCG",ty:"external",rq:["Natasha","Kevin"],op:[],n:"",lk:"https://teams.microsoft.com/meet/28934527855964?p=JMmdmDywePLROGN2TI",today:true},
+// Week of Apr 5
+{d:"Monday",dt:"Apr 6, 2026",t:"11:05 AM – 11:30 AM",tp:"Denise & Dr. Riddell Weekly Check In",ty:"external",rq:["Natasha","Luke"],op:[],n:"",lk:"https://teams.microsoft.com/meet/25411079745324?p=UDzq7KwnLCTw4SEqpS"},
 {d:"Monday",dt:"Apr 6, 2026",t:"2:30 PM – 3:00 PM",tp:"Ochsner BD | OPPL",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"",lk:"https://bcg.zoom.us/j/95005587904"},
 {d:"Monday",dt:"Apr 6, 2026",t:"3:30 PM – 4:00 PM",tp:"BCG Data Request",ty:"external",rq:["Natasha","Kevin"],op:["Ryan"],n:"",lk:""},
 {d:"Tuesday",dt:"Apr 7, 2026",t:"1:00 PM – 1:30 PM",tp:"Ochsner BD | CTM",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"Luke on CDC",lk:"https://bcg.zoom.us/j/94460683433"},
-{d:"Tuesday",dt:"Apr 7, 2026",t:"3:35 PM – 4:00 PM",tp:"Ochsner & BCG | Weekly Dawn & BCG",ty:"external",rq:["Natasha","Ryan"],op:["Kevin"],n:"",lk:"https://teams.microsoft.com/meet/2484093236907?p=wL39BR6PntMYdGy5HY"},
-{d:"Friday",dt:"Apr 10, 2026",t:"11:35 AM – 12:00 PM",tp:"Ochsner & BCG | Weekly Stephanie & BCG",ty:"external",rq:["Natasha","Kevin"],op:[],n:"",lk:"https://teams.microsoft.com/meet/28934527855964?p=JMmdmDywePLROGN2TI"},
+{d:"Tuesday",dt:"Apr 7, 2026",t:"3:35 PM – 4:00 PM",tp:"Weekly Dawn & BCG",ty:"external",rq:["Natasha","Ryan"],op:["Kevin"],n:"",lk:"https://teams.microsoft.com/meet/2484093236907?p=wL39BR6PntMYdGy5HY"},
+{d:"Friday",dt:"Apr 10, 2026",t:"11:35 AM – 12:00 PM",tp:"Weekly Stephanie & BCG",ty:"external",rq:["Natasha","Kevin"],op:[],n:"",lk:"https://teams.microsoft.com/meet/28934527855964?p=JMmdmDywePLROGN2TI"},
 {d:"Friday",dt:"Apr 10, 2026",t:"2:00 PM – 2:30 PM",tp:"Ochsner BD | CTM",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"Simon NA\nNT and KF might be on transit",lk:"https://bcg.zoom.us/j/94247175043"},
-{d:"Monday",dt:"Apr 14, 2026",t:"12:35 PM – 1:00 PM",tp:"Ochsner & BCG | Bi-Weekly Wendy & BCG Check Ins",ty:"external",rq:["Natasha","Luke"],op:["Ryan","Kevin","Alyse"],n:"",lk:"https://teams.microsoft.com/meet/26970032600555?p=VOyBDmL3FRkYQcF70u"},
+// Week of Apr 12
+{d:"Monday",dt:"Apr 14, 2026",t:"12:35 PM – 1:00 PM",tp:"Bi-Weekly Wendy & BCG Check Ins",ty:"external",rq:["Natasha","Luke"],op:["Ryan","Kevin","Alyse"],n:"",lk:"https://teams.microsoft.com/meet/26970032600555?p=VOyBDmL3FRkYQcF70u"},
 {d:"Monday",dt:"Apr 14, 2026",t:"3:30 PM – 4:30 PM",tp:"Ochsner BD | CTM",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"Simon joining second half",lk:"https://bcg.zoom.us/j/99028413373"},
 {d:"Tuesday",dt:"Apr 15, 2026",t:"10:00 AM – 10:30 AM",tp:"Ochsner BD | OPPL",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"",lk:"https://bcg.zoom.us/j/92689159099"},
-{d:"Thursday",dt:"Apr 17, 2026",t:"7:35 AM – 8:00 AM",tp:"Ochsner & BCG | Weekly Dawn & BCG",ty:"external",rq:["Natasha","Ryan"],op:["Kevin"],n:"",lk:"https://teams.microsoft.com/meet/2484093236907?p=wL39BR6PntMYdGy5HY"},
-{d:"Thursday",dt:"Apr 17, 2026",t:"11:35 AM – 12:00 PM",tp:"Ochsner & BCG | Weekly Stephanie & BCG",ty:"external",rq:["Natasha","Kevin"],op:[],n:"",lk:"https://teams.microsoft.com/meet/28934527855964?p=JMmdmDywePLROGN2TI"},
+{d:"Tuesday",dt:"Apr 15, 2026",t:"4:05 PM – 4:30 PM",tp:"Denise & Dr. Riddell Weekly Check In",ty:"external",rq:["Natasha","Luke"],op:[],n:"",lk:"https://teams.microsoft.com/meet/23066380234832?p=rEupyksYWbjKZWPBkj"},
+{d:"Thursday",dt:"Apr 17, 2026",t:"7:35 AM – 8:00 AM",tp:"Weekly Dawn & BCG",ty:"external",rq:["Natasha","Ryan"],op:["Kevin"],n:"",lk:"https://teams.microsoft.com/meet/2484093236907?p=wL39BR6PntMYdGy5HY"},
+{d:"Thursday",dt:"Apr 17, 2026",t:"9:05 AM – 9:30 AM",tp:"Bi-Weekly Jim & Natasha",ty:"external",rq:["Natasha"],op:["Ryan"],n:"",lk:"https://bcg.zoom.us/j/97507368046"},
+{d:"Thursday",dt:"Apr 17, 2026",t:"11:35 AM – 12:00 PM",tp:"Weekly Stephanie & BCG",ty:"external",rq:["Natasha","Kevin"],op:[],n:"",lk:"https://teams.microsoft.com/meet/28934527855964?p=JMmdmDywePLROGN2TI"},
 {d:"Thursday",dt:"Apr 17, 2026",t:"2:00 PM – 3:00 PM",tp:"Ochsner BD | CTM",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"",lk:"https://bcg.zoom.us/j/93820813989"},
+// Week of Apr 19
 {d:"Monday",dt:"Apr 20, 2026",t:"11:30 AM – 12:30 PM",tp:"Ochsner BD | CTM",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"Simon joining first half",lk:"https://bcg.zoom.us/j/93298401789"},
+{d:"Monday",dt:"Apr 20, 2026",t:"1:05 PM – 1:30 PM",tp:"Denise & Dr. Riddell Weekly Check In",ty:"external",rq:["Natasha","Luke"],op:[],n:"",lk:"https://teams.microsoft.com/meet/251005017370?p=AktI5pNTxwjo7XzSxf"},
 {d:"Wednesday",dt:"Apr 22, 2026",t:"1:30 PM – 2:00 PM",tp:"Ochsner BD | OPPL",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"Simon client conflicted",lk:"https://bcg.zoom.us/j/96733359110"},
-{d:"Friday",dt:"Apr 24, 2026",t:"7:35 AM – 8:00 AM",tp:"Ochsner & BCG | Weekly Dawn & BCG",ty:"external",rq:["Natasha","Ryan"],op:["Kevin"],n:"",lk:"https://teams.microsoft.com/meet/2484093236907?p=wL39BR6PntMYdGy5HY"},
+{d:"Friday",dt:"Apr 24, 2026",t:"7:35 AM – 8:00 AM",tp:"Weekly Dawn & BCG",ty:"external",rq:["Natasha","Ryan"],op:["Kevin"],n:"",lk:"https://teams.microsoft.com/meet/2484093236907?p=wL39BR6PntMYdGy5HY"},
 {d:"Friday",dt:"Apr 24, 2026",t:"10:00 AM – 11:00 AM",tp:"Ochsner BD | CTM",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"",lk:"https://bcg.zoom.us/j/98409861470"},
-{d:"Friday",dt:"Apr 24, 2026",t:"11:35 AM – 12:00 PM",tp:"Ochsner & BCG | Weekly Stephanie & BCG",ty:"external",rq:["Natasha","Kevin"],op:[],n:"",lk:"https://teams.microsoft.com/meet/28934527855964?p=JMmdmDywePLROGN2TI"},
+{d:"Friday",dt:"Apr 24, 2026",t:"11:35 AM – 12:00 PM",tp:"Weekly Stephanie & BCG",ty:"external",rq:["Natasha","Kevin"],op:[],n:"",lk:"https://teams.microsoft.com/meet/28934527855964?p=JMmdmDywePLROGN2TI"},
+// Week of Apr 26
+{d:"Monday",dt:"Apr 28, 2026",t:"8:35 AM – 9:00 AM",tp:"Denise & Dr. Riddell Weekly Check In",ty:"external",rq:["Natasha","Luke"],op:[],n:"",lk:"https://teams.microsoft.com/meet/27326827592997?p=q0oZo8jCKvDFpPDOIJ"},
 {d:"Monday",dt:"Apr 28, 2026",t:"11:30 AM – 12:30 PM",tp:"Ochsner BD | CTM",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"",lk:"https://bcg.zoom.us/j/99282927768"},
-{d:"Monday",dt:"Apr 28, 2026",t:"12:35 PM – 1:00 PM",tp:"Ochsner & BCG | Bi-Weekly Wendy & BCG Check Ins",ty:"external",rq:["Natasha","Luke"],op:["Ryan","Kevin","Alyse"],n:"",lk:"https://teams.microsoft.com/meet/26970032600555?p=VOyBDmL3FRkYQcF70u"},
+{d:"Monday",dt:"Apr 28, 2026",t:"12:35 PM – 1:00 PM",tp:"Bi-Weekly Wendy & BCG Check Ins",ty:"external",rq:["Natasha","Luke"],op:["Ryan","Kevin","Alyse"],n:"",lk:"https://teams.microsoft.com/meet/26970032600555?p=VOyBDmL3FRkYQcF70u"},
 {d:"Wednesday",dt:"Apr 29, 2026",t:"1:30 PM – 2:00 PM",tp:"Ochsner BD | OPPL",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"",lk:"https://bcg.zoom.us/j/99373612722"},
-{d:"Thursday",dt:"Apr 30, 2026",t:"7:35 AM – 8:00 AM",tp:"Ochsner & BCG | Weekly Dawn & BCG",ty:"external",rq:["Natasha","Ryan"],op:["Kevin"],n:"",lk:"https://teams.microsoft.com/meet/2484093236907?p=wL39BR6PntMYdGy5HY"},
-{d:"Thursday",dt:"Apr 30, 2026",t:"11:35 AM – 12:00 PM",tp:"Ochsner & BCG | Weekly Stephanie & BCG",ty:"external",rq:["Natasha","Kevin"],op:[],n:"",lk:"https://teams.microsoft.com/meet/28934527855964?p=JMmdmDywePLROGN2TI"},
+{d:"Thursday",dt:"Apr 30, 2026",t:"7:35 AM – 8:00 AM",tp:"Weekly Dawn & BCG",ty:"external",rq:["Natasha","Ryan"],op:["Kevin"],n:"",lk:"https://teams.microsoft.com/meet/2484093236907?p=wL39BR6PntMYdGy5HY"},
+{d:"Thursday",dt:"Apr 30, 2026",t:"11:35 AM – 12:00 PM",tp:"Weekly Stephanie & BCG",ty:"external",rq:["Natasha","Kevin"],op:[],n:"",lk:"https://teams.microsoft.com/meet/28934527855964?p=JMmdmDywePLROGN2TI"},
 {d:"Thursday",dt:"Apr 30, 2026",t:"12:00 PM – 1:00 PM",tp:"Ochsner BD | CTM",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"",lk:"https://bcg.zoom.us/j/92010540924"},
+{d:"Friday",dt:"May 1, 2026",t:"7:35 AM – 8:00 AM",tp:"Weekly Dawn & BCG",ty:"external",rq:["Natasha","Ryan"],op:["Kevin"],n:"",lk:"https://teams.microsoft.com/meet/2484093236907?p=wL39BR6PntMYdGy5HY"},
+{d:"Friday",dt:"May 1, 2026",t:"9:05 AM – 9:30 AM",tp:"Bi-Weekly Jim & Natasha",ty:"external",rq:["Natasha"],op:["Ryan"],n:"",lk:"https://bcg.zoom.us/j/97507368046"},
+{d:"Friday",dt:"May 1, 2026",t:"11:35 AM – 12:00 PM",tp:"Weekly Stephanie & BCG",ty:"external",rq:["Natasha","Kevin"],op:[],n:"",lk:"https://teams.microsoft.com/meet/28934527855964?p=JMmdmDywePLROGN2TI"},
+{d:"Friday",dt:"May 1, 2026",t:"12:00 PM – 1:00 PM",tp:"Ochsner BD | CTM",ty:"internal",rq:["Kevin","Natasha","Luke","Ryan","Yong","Alyse","Simon"],op:[],n:"",lk:"https://bcg.zoom.us/j/92010540924"},
 ];
-
-const tb=document.getElementById("tb");
-let filt="all";
+const tb=document.getElementById("tb");let filt="all";
 const icon='<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 10l4-4"/><path d="M4 8V4h4"/><path d="M8 12h4V8"/></svg>';
-
 function wk(ds){const d=new Date(ds),s=new Date(d);s.setDate(d.getDate()-d.getDay());const e=new Date(s);e.setDate(s.getDate()+6);const f=x=>x.toLocaleDateString("en-US",{month:"short",day:"numeric"});return"Week of "+f(s)+" – "+f(e)}
-
-function chips(arr,cls){if(!arr||!arr.length)return'<span style="color:var(--dim);font-size:12px">—</span>';return arr.map(a=>'<span class="chip '+cls+'">'+a+'</span>').join("")}
-
+function chips(a,c){if(!a||!a.length)return'<span style="color:var(--dim);font-size:12px">—</span>';return a.map(x=>'<span class="chip '+c+'">'+x+'</span>').join("")}
 function render(){
-  const fl=filt==="all"?M:M.filter(m=>m.ty===filt);
-  document.getElementById("s-tot").textContent=fl.length;
-  document.getElementById("s-ext").textContent=fl.filter(m=>m.ty==="external").length;
-  document.getElementById("s-int").textContent=fl.filter(m=>m.ty==="internal").length;
-  let h="",lw="";
-  fl.forEach(m=>{
-    const w=wk(m.dt);
-    if(w!==lw){h+='<tr class="wd"><td colspan="9">'+w+"</td></tr>";lw=w}
-    const bc=m.ty==="external"?"b-ext":"b-int";
-    const bl=m.ty==="external"?"External":"Internal";
-    const lnk=m.lk?'<a class="lk" href="'+m.lk+'" target="_blank" rel="noopener">'+icon+" Join</a>":'<span style="color:var(--dim);font-size:12px">—</span>';
-    h+='<tr'+(m.today?' class="today"':"")+">"
-      +'<td class="dy">'+m.d+(m.today?'<span class="tg">TODAY</span>':"")+"</td>"
-      +'<td class="dt">'+m.dt+"</td>"
-      +'<td class="tm">'+m.t+"</td>"
-      +'<td class="tp">'+m.tp+"</td>"
-      +'<td><span class="badge '+bc+'">'+bl+"</span></td>"
-      +"<td>"+chips(m.rq,"c-req")+"</td>"
-      +"<td>"+chips(m.op,"c-opt")+"</td>"
-      +'<td class="nt" style="color:'+(m.n?"var(--tx)":"var(--dim)")+'">'+(m.n||"—")+"</td>"
-      +"<td>"+lnk+"</td></tr>";
-  });
-  tb.innerHTML=h;
-}
-
-document.querySelectorAll(".fb").forEach(b=>{
-  b.addEventListener("click",()=>{
-    document.querySelectorAll(".fb").forEach(x=>x.classList.remove("on"));
-    b.classList.add("on");filt=b.dataset.f;render();
-  });
-});
+const fl=filt==="all"?M:M.filter(m=>m.ty===filt);
+document.getElementById("s-tot").textContent=fl.length;
+document.getElementById("s-ext").textContent=fl.filter(m=>m.ty==="external").length;
+document.getElementById("s-int").textContent=fl.filter(m=>m.ty==="internal").length;
+const today=new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+let h="",lw="";
+fl.forEach(m=>{const w=wk(m.dt);if(w!==lw){h+='<tr class="wd"><td colspan="9">'+w+"</td></tr>";lw=w}
+const isToday=m.dt===today;
+const bc=m.ty==="external"?"b-ext":"b-int",bl=m.ty==="external"?"External":"Internal";
+const lnk=m.lk?'<a class="lk" href="'+m.lk+'" target="_blank" rel="noopener">'+icon+" Join</a>":'<span style="color:var(--dim);font-size:12px">—</span>';
+h+='<tr'+(isToday?' class="today"':"")+">"
++'<td class="dy">'+m.d+(isToday?'<span class="tg">TODAY</span>':"")+"</td>"
++'<td class="dt">'+m.dt+"</td>"+'<td class="tm">'+m.t+"</td>"+'<td class="tp">'+m.tp+"</td>"
++'<td><span class="badge '+bc+'">'+bl+"</span></td>"
++"<td>"+chips(m.rq,"c-req")+"</td>"+"<td>"+chips(m.op,"c-opt")+"</td>"
++'<td class="nt" style="color:'+(m.n?"var(--tx)":"var(--dim)")+'">'+(m.n||"—")+"</td>"
++"<td>"+lnk+"</td></tr>"});
+tb.innerHTML=h}
+document.querySelectorAll(".fb").forEach(b=>{b.addEventListener("click",()=>{document.querySelectorAll(".fb").forEach(x=>x.classList.remove("on"));b.classList.add("on");filt=b.dataset.f;render()})});
 render();
 </script>
 </body>
